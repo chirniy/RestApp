@@ -22,6 +22,8 @@ func (r *InMemoryRepo) CreateUser(ctx context.Context, u domain.UserInput) error
 	user.Firstname = u.Firstname
 	user.Lastname = u.Lastname
 	user.Age = u.Age
+	user.Email = u.Email
+	user.Password = u.Password
 	r.db[id] = user
 	return nil
 }
@@ -52,6 +54,12 @@ func (r *InMemoryRepo) Update(ctx context.Context, id uuid.UUID, u domain.Partia
 	}
 	if u.Age != nil {
 		user.Age = *u.Age
+	}
+	if u.Email != nil {
+		user.Email = *u.Email
+	}
+	if u.Password != nil {
+		user.Password = *u.Password
 	}
 	r.db[id] = user
 	return nil

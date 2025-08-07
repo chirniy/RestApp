@@ -9,6 +9,8 @@ type User struct {
 	Firstname string    `json:"firstname"`
 	Lastname  string    `json:"lastname"`
 	Age       int       `json:"age"`
+	Email     string    `json:"email"`
+	Password  string    `json:"password"`
 	ID        uuid.UUID `json:"id"`
 }
 
@@ -16,12 +18,16 @@ type PartialUser struct {
 	Firstname *string `json:"firstname,omitempty"`
 	Lastname  *string `json:"lastname,omitempty"`
 	Age       *int    `json:"age,omitempty"`
+	Email     *string `json:"email,omitempty"`
+	Password  *string `json:"password,omitempty"`
 }
 
 type UserInput struct {
 	Firstname string `json:"firstname"`
 	Lastname  string `json:"lastname"`
 	Age       int    `json:"age"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
 }
 
 type UserRepository interface {

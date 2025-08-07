@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"serversTest2/internal/domain"
 	m "serversTest2/internal/middleware"
@@ -35,6 +36,7 @@ func (h *UserHandler) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	var userInput domain.UserInput
 
 	err := json.NewDecoder(r.Body).Decode(&userInput)
+	log.Println(userInput)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
