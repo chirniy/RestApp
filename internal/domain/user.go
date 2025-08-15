@@ -30,10 +30,16 @@ type UserInput struct {
 	Password  string `json:"password"`
 }
 
+type LoginInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type UserRepository interface {
 	CreateUser(ctx context.Context, u UserInput) error
 	GetAll(ctx context.Context) ([]User, error)
 	GetByID(ctx context.Context, id uuid.UUID) (User, error)
 	Update(ctx context.Context, id uuid.UUID, u PartialUser) error
 	Delete(ctx context.Context, id uuid.UUID) error
+	GetByEmail(ctx context.Context, email string) (User, error)
 }

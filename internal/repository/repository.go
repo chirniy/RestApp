@@ -12,4 +12,5 @@ type Repository interface {
 	GetByID(ctx context.Context, id uuid.UUID) (domain.User, error)
 	Update(ctx context.Context, id uuid.UUID, u domain.PartialUser) error
 	Delete(ctx context.Context, id uuid.UUID) error
+	GetByEmail(ctx context.Context, email string) (domain.User, error)
 }

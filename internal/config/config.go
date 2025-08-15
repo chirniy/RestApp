@@ -5,6 +5,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+var JwtKey = []byte(viper.GetString("JWT_KEY"))
+
 type Config struct {
 	Port        string
 	DataBaseURL string

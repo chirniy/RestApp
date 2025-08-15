@@ -41,3 +41,7 @@ func (u *UserUsecase) Update(ctx context.Context, id uuid.UUID, userPartial doma
 func (u *UserUsecase) Delete(ctx context.Context, id uuid.UUID) error {
 	return u.repo.Delete(ctx, id)
 }
+
+func (u *UserUsecase) GetByEmail(ctx context.Context, email string) (domain.User, error) {
+	return u.repo.GetByEmail(ctx, email)
+}

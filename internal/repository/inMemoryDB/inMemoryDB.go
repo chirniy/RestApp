@@ -73,3 +73,12 @@ func (r *InMemoryRepo) Delete(ctx context.Context, id uuid.UUID) error {
 	delete(r.db, id)
 	return nil
 }
+
+func (r *InMemoryRepo) GetByEmail(ctx context.Context, email string) (domain.User, error) {
+	for _, user := range r.db {
+		if user.Email == email {
+			return user, nil
+		}
+	}
+	return domain.User{}, errors.New("user not found")
+}

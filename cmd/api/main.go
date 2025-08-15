@@ -9,6 +9,7 @@ import (
 	"serversTest2/internal/config"
 	"serversTest2/internal/data"
 	"serversTest2/internal/handlers"
+	"serversTest2/internal/middleware"
 	"serversTest2/internal/repository/postgres"
 	"serversTest2/internal/usecase"
 )
@@ -38,7 +39,8 @@ func main() {
 	r := mux.NewRouter()
 	//users = make(map[uuid.UUID]user)
 	r.HandleFunc("/users", handler.HomeHandler).Methods("GET", "OPTIONS", "POST")
-	r.HandleFunc("/users/{id}", handler.UsersHandler).Methods("GET", "OPTIONS", "PUT", "DELETE", "PATCH")
+	r.Handle("/users/{id}", middleware.JWTMiddleware(http.HandlerFunc(handler.UsersHandler))).Methods("GET", "OPTIONS", "PUT", "DELETE", "PATCH")
+	r.HandleFunc("/login", handler.LoginHandler).Methods("POST", "OPTIONS")
 	err = http.ListenAndServe(":"+cfg.Port, r)
 	if err != nil {
 		return

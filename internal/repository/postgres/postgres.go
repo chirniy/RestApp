@@ -24,7 +24,7 @@ func (r *PostgresUserRepo) CreateUser(ctx context.Context, u domain.UserInput) e
 }
 
 func (r *PostgresUserRepo) GetAll(ctx context.Context) ([]domain.User, error) {
-	rows, err := r.db.Query(`SELECT id, firstname, lastname, age, email FROM users`)
+	rows, err := r.db.Query(`SELECT id, firstname, lastname, age, email, password FROM users`)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func (r *PostgresUserRepo) GetAll(ctx context.Context) ([]domain.User, error) {
 	var users []domain.User
 	for rows.Next() {
 		var u domain.User
-		if err := rows.Scan(&u.ID, &u.Firstname, &u.Lastname, &u.Age, &u.Email); err != nil {
+		if err := rows.Scan(&u.ID, &u.Firstname, &u.Lastname, &u.Age, &u.Email, &u.Password); err != nil {
 			return nil, err
 		}
 		users = append(users, u)
@@ -43,7 +43,7 @@ func (r *PostgresUserRepo) GetAll(ctx context.Context) ([]domain.User, error) {
 
 func (r *PostgresUserRepo) GetByID(ctx context.Context, id uuid.UUID) (domain.User, error) {
 	var user domain.User
-	err := r.db.QueryRowContext(ctx, "SELECT id, firstname, lastname, age, email  FROM users WHERE id = $1", id).Scan(&user.ID, &user.Firstname, &user.Lastname, &user.Age, &user.Email)
+	err := r.db.QueryRowContext(ctx, "SELECT id, firstname, lastname, age, email, password  FROM users WHERE id = $1", id).Scan(&user.ID, &user.Firstname, &user.Lastname, &user.Age, &user.Email, &user.Password)
 	return user, err
 }
 
@@ -94,4 +94,10 @@ func (r *PostgresUserRepo) Update(ctx context.Context, id uuid.UUID, u domain.Pa
 func (r *PostgresUserRepo) Delete(ctx context.Context, id uuid.UUID) error {
 	_, err := r.db.Exec(`DELETE FROM users WHERE id = $1`, id)
 	return err
+}
+
+func (r *PostgresUserRepo) GetByEmail(ctx context.Context, email string) (domain.User, error) {
+	var user domain.User
+	err := r.db.QueryRowContext(ctx, "SELECT id, firstname, lastname, age, email, password FROM users WHERE email = $1", email).Scan(&user.ID, &user.Firstname, &user.Lastname, &user.Age, &user.Email, &user.Password)
+	return user, err
 }
